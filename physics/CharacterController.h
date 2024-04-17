@@ -96,8 +96,7 @@ namespace osgPhysics
         // Implements PxSceneQueryFilterCallback
         virtual physx::PxQueryHitType::Enum preFilter(
             const physx::PxFilterData& filterData, const physx::PxShape* shape, const physx::PxRigidActor* actor, physx::PxSceneQueryFlags& flags);
-        virtual physx::PxQueryHitType::Enum postFilter(
-            const physx::PxFilterData& filterData, const physx::PxSceneQueryHit& hit);
+        virtual physx::PxQueryHitType::Enum postFilter(const physx::PxFilterData& filterData, const physx::PxQueryHit& hit, const physx::PxShape* shape, const physx::PxRigidActor* actor);
 
     protected:
         virtual ~CharacterController();

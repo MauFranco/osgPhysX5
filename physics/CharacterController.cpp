@@ -219,7 +219,7 @@ PxQueryHitType::Enum CharacterController::preFilter(
 }
 
 PxQueryHitType::Enum CharacterController::postFilter(
-    const PxFilterData& filterData, const PxSceneQueryHit& hit)
+    const PxFilterData& filterData, const PxQueryHit& hit, const PxShape* shape, const PxRigidActor* actor)
 {
     return PxQueryHitType::eBLOCK;
 }
