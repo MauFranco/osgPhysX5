@@ -11,7 +11,7 @@ namespace osgPhysics
         The wheel mesh must be set at the origin, with radii in YOZ, and width along X.
         The first wheel is always the left-front one, and the last is at right-rear.
     */
-    class WheeledVehicle : public osg::Referenced
+    class DllExport WheeledVehicle : public osg::Referenced
     {
     public:
         struct ChassisData
@@ -154,7 +154,7 @@ namespace osgPhysics
     };
 
     /** The 4-wheeled car vehicle */
-    class CarVehicle : public WheeledVehicle
+    class DllExport CarVehicle : public WheeledVehicle
     {
     public:
         CarVehicle();
@@ -191,7 +191,7 @@ namespace osgPhysics
     };
 
     /** The 6-wheeled car vehicle */
-    class TruckVehicle : public WheeledVehicle
+    class DllExport TruckVehicle : public WheeledVehicle
     {
     public:
         TruckVehicle();

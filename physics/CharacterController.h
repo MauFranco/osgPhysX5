@@ -9,7 +9,7 @@ namespace osgPhysics
 {
 
     /** The character controller manager */
-    class CharacterControlManager : public osg::Referenced
+    class DllExport CharacterControlManager : public osg::Referenced
     {
     public:
         static CharacterControlManager* instance();

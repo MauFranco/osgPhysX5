@@ -11,19 +11,19 @@
 namespace osgPhysics
 {
 
-    inline physx::PxVec3 toPxVec3(const osg::Vec3& v) { return physx::PxVec3(v[0], v[1], v[2]); }
-    inline physx::PxExtendedVec3 toPxVec3d(const osg::Vec3d& v) { return physx::PxExtendedVec3(v[0], v[1], v[2]); }
-    inline osg::Vec3 toVec3(const physx::PxVec3& v) { return osg::Vec3(v[0], v[1], v[2]); }
-    inline osg::Vec3d toVec3d(const physx::PxExtendedVec3& v) { return osg::Vec3d(v[0], v[1], v[2]); }
+    DllExport inline physx::PxVec3 toPxVec3(const osg::Vec3& v) { return physx::PxVec3(v[0], v[1], v[2]); }
+    DllExport inline physx::PxExtendedVec3 toPxVec3d(const osg::Vec3d& v) { return physx::PxExtendedVec3(v[0], v[1], v[2]); }
+    DllExport inline osg::Vec3 toVec3(const physx::PxVec3& v) { return osg::Vec3(v[0], v[1], v[2]); }
+    DllExport inline osg::Vec3d toVec3d(const physx::PxExtendedVec3& v) { return osg::Vec3d(v[0], v[1], v[2]); }
 
     /** Convert OpenSceneGraph matrix to Physics matrix */
-    extern physx::PxMat44 toPxMatrix(const osg::Matrix& matrix);
+    DllExport extern physx::PxMat44 toPxMatrix(const osg::Matrix& matrix);
 
     /** Convert Physics matrix to OpenSceneGraph matrix */
-    extern osg::Matrix toMatrix(const physx::PxMat44& pmatrix);
+    DllExport extern osg::Matrix toMatrix(const physx::PxMat44& pmatrix);
 
     /** Cook and create new convex mesh */
-    extern physx::PxConvexMesh* createConvexMesh(
+    DllExport extern physx::PxConvexMesh* createConvexMesh(
         const std::vector<physx::PxVec3>& verts,
         physx::PxConvexFlags flags = physx::PxConvexFlag::eCOMPUTE_CONVEX
 #if !(PX_PHYSICS_VERSION_MAJOR > 3)
@@ -32,7 +32,7 @@ namespace osgPhysics
     );
 
     /** Cook and create new convex mesh from node */
-    extern physx::PxConvexMesh* createConvexMesh(
+    DllExport extern physx::PxConvexMesh* createConvexMesh(
         osg::Node& node,
         physx::PxConvexFlags flags = physx::PxConvexFlag::eCOMPUTE_CONVEX
 #if !(PX_PHYSICS_VERSION_MAJOR > 3)
@@ -43,22 +43,22 @@ namespace osgPhysics
     /** Cook and create new height field, where lowerTriangleData & upperTriangleData contain material index data
         and hole flag of the lower/upper triangle of each height field cell
     */
-    extern physx::PxHeightField* createHeightField(
+    DllExport extern physx::PxHeightField* createHeightField(
         unsigned int numRows, unsigned int numColumns, const float* heightData,
         const char* lowerTriangleData = 0, const char* upperTriangleData = 0, float thickness = -1.0f);
 
     /** Cook and create new convex mesh as a box */
-    extern physx::PxConvexMesh* createBoxMesh(const osg::Vec3& c, const osg::Vec3& dim);
+    DllExport extern physx::PxConvexMesh* createBoxMesh(const osg::Vec3& c, const osg::Vec3& dim);
 
     /** Cook and create new convex mesh as a cylinder */
-    extern physx::PxConvexMesh* createCylinderMesh(const osg::Vec3& c, float radius, float width, unsigned int samples);
+    DllExport extern physx::PxConvexMesh* createCylinderMesh(const osg::Vec3& c, float radius, float width, unsigned int samples);
 
     /** Cook and create new physics triangle mesh */
-    extern physx::PxTriangleMesh* createTriangleMesh(const std::vector<physx::PxVec3>& verts,
+    DllExport extern physx::PxTriangleMesh* createTriangleMesh(const std::vector<physx::PxVec3>& verts,
         const std::vector<physx::PxU32>& indices);
 
     /** Cook and create new physics triangle mesh from node */
-    extern physx::PxTriangleMesh* createTriangleMesh(osg::Node& node);
+    DllExport extern physx::PxTriangleMesh* createTriangleMesh(osg::Node& node);
 
     /** Cook and create new physics cloth fabric */
 #if !(PX_PHYSICS_VERSION_MAJOR > 3)
@@ -68,52 +68,53 @@ namespace osgPhysics
 #endif
 
     /** Create a physics scene */
-    extern physx::PxScene* createScene(const osg::Vec3& gravity,
+    DllExport extern physx::PxScene* createScene(const osg::Vec3& gravity,
         const physx::PxSimulationFilterShader& filter = &physx::PxDefaultSimulationFilterShader,
         physx::PxSceneFlags flags = physx::PxSceneFlags(), unsigned int numThreads = 1, bool useGPU = false);
 
     /** Create a physics actor (static if density is 0) */
-    extern physx::PxRigidActor* createActor(const physx::PxGeometry& geom, double density, physx::PxMaterial* mtl = 0);
+    DllExport extern physx::PxRigidActor* createActor(const physx::PxGeometry& geom, double density, physx::PxMaterial* mtl = 0);
 
     /** Create a physics actor with a materials list */
-    extern physx::PxRigidActor* createActor(const physx::PxGeometry& geom, const std::vector<physx::PxMaterial*>& mtlList);
+    DllExport extern physx::PxRigidActor* createActor(const physx::PxGeometry& geom, const std::vector<physx::PxMaterial*>& mtlList);
 
     /** Create a physics box actor */
-    extern physx::PxRigidActor* createBoxActor(const osg::Vec3& dim, double density, physx::PxMaterial* mtl = 0);
+    DllExport extern physx::PxRigidActor* createBoxActor(const osg::Vec3& dim, double density, physx::PxMaterial* mtl = 0);
 
     /** Create a physics sphere actor */
-    extern physx::PxRigidActor* createSphereActor(double radius, double density, physx::PxMaterial* mtl = 0);
+    DllExport extern physx::PxRigidActor* createSphereActor(double radius, double density, physx::PxMaterial* mtl = 0);
 
     /** Create a physics capsule actor */
-    extern physx::PxRigidActor* createCapsuleActor(double radius, double height, double density, physx::PxMaterial* mtl = 0);
+    DllExport extern physx::PxRigidActor* createCapsuleActor(double radius, double height, double density, physx::PxMaterial* mtl = 0);
 
     /** Create a physics convex mesh actor */
-    extern physx::PxRigidActor* createConvexMeshActor(physx::PxConvexMesh* mesh, double density, physx::PxMaterial* mtl = 0);
+    DllExport extern physx::PxRigidActor* createConvexMeshActor(physx::PxConvexMesh* mesh, double density, physx::PxMaterial* mtl = 0);
 
     /** Create a physics height field actor */
-    extern physx::PxRigidActor* createHeightFieldActor(
+    DllExport extern physx::PxRigidActor* createHeightFieldActor(
         physx::PxHeightField* hf, float xScale, float yScale, float zScale, physx::PxMaterial* mtl = 0);
-    extern physx::PxRigidActor* createHeightFieldActor(
+    
+    DllExport extern physx::PxRigidActor* createHeightFieldActor(
         physx::PxHeightField* hf, float xScale, float yScale, float zScale, const std::vector<physx::PxMaterial*>& mtlList);
 
     /** Create a static triangle mesh actor */
-    extern physx::PxRigidActor* createTriangleMeshActor(physx::PxTriangleMesh* mesh, physx::PxMaterial* mtl = 0);
+    DllExport extern physx::PxRigidActor* createTriangleMeshActor(physx::PxTriangleMesh* mesh, physx::PxMaterial* mtl = 0);
 
     /** Create a static ground plane actor */
-    extern physx::PxRigidActor* createPlaneActor(const osg::Plane& plane, physx::PxMaterial* mtl = 0);
+    DllExport extern physx::PxRigidActor* createPlaneActor(const osg::Plane& plane, physx::PxMaterial* mtl = 0);
 
     /** Set simulation filter for a certain actor */
-    extern bool createSimulationFilter(physx::PxRigidActor* actor, const physx::PxFilterData& filter);
+    DllExport extern bool createSimulationFilter(physx::PxRigidActor* actor, const physx::PxFilterData& filter);
 
     /** Create a node for specified actor */
-    extern osg::Node* createNodeForActor(physx::PxRigidActor* actor);
+    DllExport extern osg::Node* createNodeForActor(physx::PxRigidActor* actor);
 
     /** Convenient function to create geometry */
-    extern osg::Geometry* createGeometry(osg::Vec3Array* va, osg::Vec3Array* na, osg::Vec2Array* ta,
+    DllExport extern osg::Geometry* createGeometry(osg::Vec3Array* va, osg::Vec3Array* na, osg::Vec2Array* ta,
         osg::PrimitiveSet* p, bool useVBO = true);
 
     /** A visitor for collecting vital geometry data (vertices and indices) in the node subgraph */
-    struct GeometryDataCollector : public osg::NodeVisitor
+    struct DllExport GeometryDataCollector : public osg::NodeVisitor
     {
         GeometryDataCollector();
         virtual void apply(osg::Transform& transform);
@@ -137,7 +138,7 @@ namespace osgPhysics
     };
 
     /** The memory output stream class */
-    class MemoryOutputStream : public physx::PxOutputStream
+    class DllExport MemoryOutputStream : public physx::PxOutputStream
     {
     public:
         MemoryOutputStream();
@@ -154,7 +155,7 @@ namespace osgPhysics
     };
 
     /** The memory input data class */
-    class MemoryInputData : public physx::PxInputData
+    class DllExport MemoryInputData : public physx::PxInputData
     {
     public:
         MemoryInputData(physx::PxU8* data, physx::PxU32 length);

@@ -9,7 +9,7 @@ namespace osgPhysics
 {
 
     /** The global vehicle manager */
-    class VehicleManager : public osg::Referenced
+    class DllExport VehicleManager : public osg::Referenced
     {
     public:
         static VehicleManager* instance();

@@ -8,17 +8,19 @@
 #include <string>
 #include <map>
 
-#if PX_PHYSICS_VERSION_MAJOR==3 && PX_PHYSICS_VERSION_MINOR==4 || PX_PHYSICS_VERSION_MAJOR > 3
+#if PX_PHYSICS_VERSION_MAJOR >= 5
     //
 #else
-#   error "Unsupport PhysX version"
+#   error "Unsupported PhysX version"
 #endif
+
+#define DllExport   __declspec( dllexport )
 
 namespace osgPhysics
 {
 
     /** The engine instance to be used globally */
-    class Engine : public osg::Referenced
+    class DllExport Engine : public osg::Referenced
     {
     public:
         static Engine* instance();
