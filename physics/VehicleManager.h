@@ -76,8 +76,10 @@ namespace osgPhysics
         physx::PxVehicleDrivableSurfaceType _surfaceTypes[MAX_NUM_SURFACE_TYPES];
         physx::PxVehicleDrivableSurfaceToTireFrictionPairs* _surfaceTirePairs;
 
-        physx::PxBatchQuery* _query;
-        physx::PxRaycastQueryResult* _queryResults;
+        //physx::PxBatchQuery* _query;
+        //physx::PxRaycastQueryResult* _queryResults;
+        physx::PxBatchQueryExt* _query;
+        physx::PxRaycastBuffer* _queryResults;
         physx::PxRaycastHit* _queryHitBuffer;
         physx::PxU32 _numQueries, _numMaxWheels;
     };

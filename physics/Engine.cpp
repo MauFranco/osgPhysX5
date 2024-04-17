@@ -27,7 +27,7 @@ Engine* Engine::instance()
 }
 
 Engine::Engine()
-    : _cooking(NULL), _cudaManager(NULL), _pvdTransport(NULL), _pvd(NULL)
+    : /*_cooking(NULL),*/ _cudaManager(NULL), _pvdTransport(NULL), _pvd(NULL)
 {
 #if (PX_PHYSICS_VERSION_MAJOR > 3)
     PxFoundation* foundation = PxCreateFoundation(PX_PHYSICS_VERSION, defaultAllocator, errorHandler);
@@ -76,7 +76,7 @@ Engine::~Engine()
     _physicsSDK->release();
     if (_pvd) _pvd->release();
     if (_pvdTransport) _pvdTransport->release();
-    if (_cooking) _cooking->release();
+    //if (_cooking) _cooking->release();
     if (_cudaManager) _cudaManager->release();
 }
 
@@ -163,27 +163,27 @@ bool Engine::removeActor(const std::string& s, PxActor* actor)
     return true;
 }
 
-PxCooking* Engine::getOrCreateCooking(PxCookingParams* params, bool forceCreating)
-{
-    if (forceCreating && _cooking)
-    {
-        _cooking->release();
-        _cooking = NULL;
-    }
-
-    if (!_cooking)
-    {
-        if (params)
-            _cooking = PxCreateCooking(PX_PHYSICS_VERSION, _physicsSDK->getFoundation(), *params);
-        else
-        {
-            physx::PxTolerancesScale sc;
-            physx::PxCookingParams defParams(sc);
-            _cooking = PxCreateCooking(PX_PHYSICS_VERSION, _physicsSDK->getFoundation(), defParams);
-        }
-    }
-    return _cooking;
-}
+//PxCooking* Engine::getOrCreateCooking(PxCookingParams* params, bool forceCreating)
+//{
+//    if (forceCreating && _cooking)
+//    {
+//        _cooking->release();
+//        _cooking = NULL;
+//    }
+//
+//    if (!_cooking)
+//    {
+//        if (params)
+//            _cooking = PxCreateCooking(PX_PHYSICS_VERSION, _physicsSDK->getFoundation(), *params);
+//        else
+//        {
+//            physx::PxTolerancesScale sc;
+//            physx::PxCookingParams defParams(sc);
+//            _cooking = PxCreateCooking(PX_PHYSICS_VERSION, _physicsSDK->getFoundation(), defParams);
+//        }
+//    }
+//    return _cooking;
+//}
 
 PxCudaContextManager* Engine::getOrCreateCudaContextManager(PxCudaContextManagerDesc* desc, bool forceCreating)
 {
@@ -200,7 +200,7 @@ PxCudaContextManager* Engine::getOrCreateCudaContextManager(PxCudaContextManager
         else
         {
             physx::PxCudaContextManagerDesc defDesc;
-            defDesc.interopMode = PxCudaInteropMode::OGL_INTEROP;
+            //defDesc.interopMode = PxCudaInteropMode::OGL_INTEROP;
             _cudaManager = PxCreateCudaContextManager(_physicsSDK->getFoundation(), defDesc);
         }
     }

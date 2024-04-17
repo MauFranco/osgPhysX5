@@ -157,7 +157,7 @@ physx::PxControllerCollisionFlags CharacterController::updateMovement(double ste
     return _controller->move(offset, minOffsetDistance, step, PxControllerFilters(), obManager);
 }
 
-void CharacterController::updateObstacle(physx::ObstacleHandle handle, const physx::PxObstacle& obstacle)
+void CharacterController::updateObstacle(physx::PxObstacleHandle handle, const physx::PxObstacle& obstacle)
 {
     if (!_controllerScene) return;
     physx::PxObstacleContext* obManager =
@@ -167,7 +167,7 @@ void CharacterController::updateObstacle(physx::ObstacleHandle handle, const phy
     else obManager->updateObstacle(handle, obstacle);
 }
 
-void CharacterController::removeObstacle(physx::ObstacleHandle handle, bool removeAll)
+void CharacterController::removeObstacle(physx::PxObstacleHandle handle, bool removeAll)
 {
     if (!_controllerScene) return;
     physx::PxObstacleContext* obManager =

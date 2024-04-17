@@ -80,8 +80,8 @@ namespace osgPhysics
         physx::PxControllerCollisionFlags updateMovement(double step);
 
         /** Add/update an invisible obstacle. Set handle to 0 if you want to add new */
-        void updateObstacle(physx::ObstacleHandle handle, const physx::PxObstacle& obstacle);
-        void removeObstacle(physx::ObstacleHandle handle, bool removeAll);
+        void updateObstacle(physx::PxObstacleHandle handle, const physx::PxObstacle& obstacle);
+        void removeObstacle(physx::PxObstacleHandle handle, bool removeAll);
 
         // Implements PxUserControllerHitReport
         virtual void onShapeHit(const physx::PxControllerShapeHit& hit);

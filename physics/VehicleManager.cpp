@@ -203,7 +203,8 @@ void VehicleManager::update(double step, const std::string& s, std::vector<PxVeh
     updateQueryData(scene, numWheels);
 
     unsigned int size = vehicles.size();
-    PxVehicleSuspensionRaycasts(_query, size, &(vehicles[0]), _numQueries, _queryResults);
+    //PxVehicleSuspensionRaycasts(_query, size, &(vehicles[0]), _numQueries, _queryResults);
+    PxVehicleSuspensionRaycasts(_query, size, &(vehicles[0]));
     PxVehicleUpdates(step, scene->getGravity(), *_surfaceTirePairs, size, &(vehicles[0]), &(queryResults[0]));
 }
 
@@ -237,14 +238,22 @@ void VehicleManager::updateQueryData(PxScene* scene, unsigned int numWheels)
         if (_queryResults) delete[] _queryResults;
         if (_queryHitBuffer) delete[] _queryHitBuffer;
 
-        _queryResults = new PxRaycastQueryResult[numWheels];
+        _queryResults = new PxRaycastBuffer[numWheels];
         _queryHitBuffer = new PxRaycastHit[numWheels];
 
-        PxBatchQueryDesc queryDesc(_numMaxWheels, 0, 0);
-        queryDesc.queryMemory.userRaycastResultBuffer = _queryResults;
-        queryDesc.queryMemory.userRaycastTouchBuffer = _queryHitBuffer;
-        queryDesc.queryMemory.raycastTouchBufferSize = _numQueries;
-        queryDesc.preFilterShader = wheelRaycastPreFilter;
-        _query = scene->createBatchQuery(queryDesc);
+        //PxBatchQueryDesc queryDesc(_numMaxWheels, 0, 0);
+        //queryDesc.queryMemory.userRaycastResultBuffer = _queryResults;
+        //queryDesc.queryMemory.userRaycastTouchBuffer = _queryHitBuffer;
+        //queryDesc.queryMemory.raycastTouchBufferSize = _numQueries;
+        //queryDesc.preFilterShader = wheelRaycastPreFilter;
+        //_query = scene->createBatchQuery(queryDesc);
+
+        PxRaycastHit raycastHits[4];
+        PxSweepBuffer sweeps[6];
+        PxSweepHit sweepHits[8];
+        PxOverlapBuffer overlaps[10];
+        PxOverlapHit overlapHits[12];
+        PxBatchQueryExt* bq = PxCreateBatchQueryExt(*scene, NULL, _queryResults, numWheels, raycastHits, 4, sweeps, 6, sweepHits, 8, overlaps, 10, overlapHits, 12);
+        bq->execute();
     }
 }

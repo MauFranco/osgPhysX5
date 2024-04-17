@@ -55,7 +55,7 @@ namespace osgPhysics
         const ActorMap& getAllActors() const { return _actorMap; }
 
         /** Get or create a new cooking object */
-        physx::PxCooking* getOrCreateCooking(physx::PxCookingParams* params = 0, bool forceCreating = false);
+        //physx::PxCooking* getOrCreateCooking(physx::PxCookingParams* params = 0, bool forceCreating = false);
 
         /** Get or create a new CUDA context manager */
         physx::PxCudaContextManager* getOrCreateCudaContextManager(
@@ -77,7 +77,7 @@ namespace osgPhysics
         ActorMap _actorMap;
         physx::PxPhysics* _physicsSDK;
         physx::PxMaterial* _defaultMaterial;
-        physx::PxCooking* _cooking;
+        //physx::PxCooking* _cooking;
         physx::PxCudaContextManager* _cudaManager;
         physx::PxPvdTransport* _pvdTransport;
         physx::PxPvd* _pvd;

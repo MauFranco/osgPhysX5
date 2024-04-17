@@ -173,7 +173,9 @@ namespace osgPhysics
         convexDesc.flags = flags;
 
         MemoryOutputStream writeBuffer;
-        if (!SDK_COOK->cookConvexMesh(convexDesc, writeBuffer)) return NULL;
+        //if (!SDK_COOK->cookConvexMesh(convexDesc, writeBuffer)) return NULL;
+        PxCookingParams params = PxCookingParams(PxTolerancesScale());
+        if (!PxCookConvexMesh(params, convexDesc, writeBuffer)) return NULL;
 
         MemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
         return SDK_OBJ->createConvexMesh(readBuffer);
@@ -211,7 +213,9 @@ namespace osgPhysics
         convexDesc.flags = flags;
 
         MemoryOutputStream writeBuffer;
-        if (!SDK_COOK->cookConvexMesh(convexDesc, writeBuffer)) return NULL;
+        PxCookingParams params = PxCookingParams(PxTolerancesScale());
+        //if (!SDK_COOK->cookConvexMesh(convexDesc, writeBuffer)) return NULL;
+        if (!PxCookConvexMesh(params, convexDesc, writeBuffer)) return NULL;
 
         MemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
         return SDK_OBJ->createConvexMesh(readBuffer);
@@ -247,7 +251,7 @@ namespace osgPhysics
             }
         }
 
-        PxHeightField* heightField = SDK_COOK->createHeightField(
+        PxHeightField* heightField = PxCreateHeightField(
             heightFieldDesc, SDK_OBJ->getPhysicsInsertionCallback());
         free(samplesData);
         return heightField;
@@ -294,7 +298,9 @@ namespace osgPhysics
         meshDesc.triangles.data = &(indices[0]);
 
         MemoryOutputStream writeBuffer;
-        if (!SDK_COOK->cookTriangleMesh(meshDesc, writeBuffer)) return NULL;
+        PxCookingParams params = PxCookingParams(PxTolerancesScale());
+        //if (!SDK_COOK->cookTriangleMesh(meshDesc, writeBuffer)) return NULL;
+        if (!PxCookTriangleMesh(params, meshDesc, writeBuffer)) return NULL;
 
         MemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
         return SDK_OBJ->createTriangleMesh(readBuffer);
@@ -513,12 +519,16 @@ namespace osgPhysics
             osg::Quat localQuat(shape->getLocalPose().q.x, shape->getLocalPose().q.y,
                 shape->getLocalPose().q.z, shape->getLocalPose().q.w);
 
-            switch (shape->getGeometryType())
+            //switch (shape->getGeometryType())
+            auto geomObjType = shape->getGeometry().getType();
+            PxGeometryHolder geomHolder(shape->getGeometry());
+            switch(geomObjType)
             {
             case PxGeometryType::eSPHERE:
                 {
-                    PxSphereGeometry sphere;
-                    shape->getSphereGeometry(sphere);
+                    //PxSphereGeometry sphere;
+                    //shape->getSphereGeometry(sphere);
+                    auto sphere = geomHolder.sphere();
 
                     osg::Sphere* sphereShape = new osg::Sphere(localPos, sphere.radius);
                     geode->addDrawable(new osg::ShapeDrawable(sphereShape));
@@ -529,8 +539,9 @@ namespace osgPhysics
                 break;
             case PxGeometryType::eCAPSULE:
                 {
-                    PxCapsuleGeometry capsule;
-                    shape->getCapsuleGeometry(capsule);
+                    //PxCapsuleGeometry capsule;
+                    //shape->getCapsuleGeometry(capsule);
+                    auto capsule = geomHolder.capsule();
 
                     osg::Capsule* capsuleShape = new osg::Capsule(
                         localPos, capsule.radius, capsule.halfHeight * 2.0f);
@@ -540,8 +551,9 @@ namespace osgPhysics
                 break;
             case PxGeometryType::eBOX:
                 {
-                    PxBoxGeometry box;
-                    shape->getBoxGeometry(box);
+                    //PxBoxGeometry box;
+                    //shape->getBoxGeometry(box);
+                    auto box = geomHolder.box();
 
                     osg::Box* boxShape = new osg::Box(localPos,
                         box.halfExtents[0] * 2.0f, box.halfExtents[1] * 2.0f, box.halfExtents[2] * 2.0f);
@@ -551,8 +563,10 @@ namespace osgPhysics
                 break;
             case PxGeometryType::eCONVEXMESH:
                 {
-                    PxConvexMeshGeometry convexMeshGeom;
-                    shape->getConvexMeshGeometry(convexMeshGeom);
+                    //PxConvexMeshGeometry convexMeshGeom;
+                    //shape->getConvexMeshGeometry(convexMeshGeom);
+                    auto convexMeshGeom = geomHolder.convexMesh();
+                    
                     // TODO: consider convexMeshGeom.scale
 
                     PxConvexMesh* convexMesh = convexMeshGeom.convexMesh;
@@ -568,8 +582,11 @@ namespace osgPhysics
                 break;
             case PxGeometryType::eTRIANGLEMESH:
                 {
-                    PxTriangleMeshGeometry triangleMeshGeom;
-                    shape->getTriangleMeshGeometry(triangleMeshGeom);
+                    //PxTriangleMeshGeometry triangleMeshGeom;
+                    //shape->getTriangleMeshGeometry(triangleMeshGeom);
+                     
+                    auto triangleMeshGeom = geomHolder.triangleMesh();
+                    
                     // TODO: consider triangleMeshGeom.scale
 
                     PxTriangleMesh* triangleMesh = triangleMeshGeom.triangleMesh;
@@ -612,8 +629,10 @@ namespace osgPhysics
                 break;
             case PxGeometryType::eHEIGHTFIELD:
                 {
-                    PxHeightFieldGeometry hfGeom;
-                    shape->getHeightFieldGeometry(hfGeom);
+                    //PxHeightFieldGeometry hfGeom;
+                    //shape->getHeightFieldGeometry(hfGeom);
+
+                    auto hfGeom = geomHolder.heightField();
 
                     PxHeightField* hf = hfGeom.heightField;
                     if (hf)
