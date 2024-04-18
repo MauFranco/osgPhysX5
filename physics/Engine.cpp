@@ -210,6 +210,16 @@ PxCudaContextManager* Engine::getOrCreateCudaContextManager(PxCudaContextManager
             _cudaManager = PxCreateCudaContextManager(_physicsSDK->getFoundation(), defDesc);
         }
     }
+	
+	if (_cudaManager)
+    {
+        if (!_cudaManager->contextIsValid())
+        {
+            _cudaManager->release();
+            _cudaManager = NULL;
+        }
+    }
+	
     return _cudaManager;
 }
 
