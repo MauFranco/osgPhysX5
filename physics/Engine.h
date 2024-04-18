@@ -69,6 +69,9 @@ namespace osgPhysics
         /** Clear all saved data */
         void clear();
 
+        /* destroy the physx structures explicitly */
+        void destroy();
+
     protected:
         Engine();
         virtual ~Engine();

@@ -68,16 +68,22 @@ Engine::Engine()
     }
 }
 
-Engine::~Engine()
+void Engine::destroy(void)
 {
     clear();
+
     PxCloseExtensions();
-    _defaultMaterial->release();
-    _physicsSDK->release();
+    //if (_cooking) _cooking->release();
+    if (_defaultMaterial) _defaultMaterial->release();
+    if (_physicsSDK) _physicsSDK->release();
     if (_pvd) _pvd->release();
     if (_pvdTransport) _pvdTransport->release();
-    //if (_cooking) _cooking->release();
     if (_cudaManager) _cudaManager->release();
+}
+
+Engine::~Engine()
+{
+    destroy();
 }
 
 bool Engine::addScene(const std::string& name, PxScene* s)
